@@ -13,16 +13,11 @@ class SGBD:
 
     def __init__(self, user, db_name, password):
 
-        self.connection = None
-        self.requette = None
-        self.cursor = None
-
         try:
-            self.conection = psycopg2.connect(user=user, dbname=db_name, password=password)
-
+            self.connected = psycopg2.connect (user=user, dbname=db_name, password=password)
+            self.connected.set_session(readonly = False, autocommit = True)
             #create cursor
-            self.cursor = self.conection.cursor()       
-            print('connected sucessful')
+            #self.cursor = self.connected.cursor()       
             self.echec = 0
 
         except Exception as err:
@@ -31,21 +26,15 @@ class SGBD:
                   '{}'.format(err))
             self.echec = 1
 
-    def create_table(self, username, password):
 
+    def create_table(self, user_name, mdp):
 
-        with self.connection as cursor:
-            cursor.execute(open("shema.sql", "r").read())
+        with self.connected:
+            self.cursor = self.connected.cursor()
+            self.cursor.execute(open("shema.sql", "r").read()) 
+            querry = "INSERT INTO inauconf (identifiant, iaf_pass)  VALUES (%s, %s)"
+            self.cursor.execute(querry, (str(user_name), str(mdp)))
 
-        #print((name, title))
-
-        self.cursor.execute('''INSERT OR IGNORE INTO inauconf (user_name, password)
-                VALUES ( ? , ?)''', ( username, password, )) 
-        '''cur.execute('SELECT id FROM User WHERE name = ? ', (name, ))
-        user_id = cur.fetchone()[0]'''
-
-        # cur.execute('''INSERT OR IGNORE INTO Course (title)
-        #        VALUES ( ? )''', ( title, ) )
         # cur.execute('SELECT id FROM Course WHERE title = ? ', (title, ))
         # course_id = cur.fetchone()[0]
 
@@ -64,17 +53,5 @@ class SGBD:
 
         '''self.requette = ('CREATE TABLE {}(nom text, age INTEGER)'.format(table))
         self.cursor.execute(self.requette)'''
-
-
-    def enregistre(self):
-        choix=input("voulez vous enregistre les modification o/n: ")
-        if choix == 'o' or  choix == 'O':
-            self.conection.commit()
-        else:
-            self.echec=1
-
-    def sortie(self):
-        self.cursor.close()
-        self.conection.close()
 
         
