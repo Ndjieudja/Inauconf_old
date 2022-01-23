@@ -19,7 +19,7 @@ REsumer:
 
 Presentation:
 
-    Dans sa code source l'application contient plusieurs module eux meme contenant plusieurs class 
+    Dans son code source l'application contient plusieurs module eux meme contenant plusieurs class 
 
 * le modeule Shuffle.py :
     ce dernier contient essenetiellement l'agorithme de chiffrement et de dechiffrement. Il contient la classe 
