@@ -12,7 +12,8 @@ class EncriptAll():
 
 		# var from input
 		self.account_ = None
-		self.password_ = None
+		self.cript_password = None
+		self.uncript_password = None
 			
 
 		# beginning handing process
@@ -31,12 +32,21 @@ class EncriptAll():
 		container_cript = list()
 		for el in range(len(target)):
 			if ord(target[el]) < 10:
-				key_val.append((ord(target[el]), randrange(1, 10)))
+				key_val.append((ord(target[el]), chr(randrange(1, 10))))
 
 			elif ord(target[el]) < 100:
-				key_val.append((ord(target[el]), chr(randrange(10, 100))))
+				interline = randrange(10, 100)
+				if interline in range(48, 58):
+					interline = 71
+				key_val.append((ord(target[el]), chr(interline)))
 
-			else: key_val.append((ord(target[el]), chr(randrange(100, 1000))))
+			elif ord(target[el]) < 1000:
+				key_val.append((ord(target[el]), chr(randrange(100, 1000))))
+			
+			elif ord(target[el]) < 10000:
+				key_val.append((ord(target(el)), chr(randrange(1000, 10000))))
+
+			else: key_val.append((ord(target[el]), chr(randrange(10000, 1000000))))
 
 		for el in key_val:
 			values.append(el[1])
@@ -45,27 +55,48 @@ class EncriptAll():
 		# print(values)
 		string_int_ = [str(int) for int in values]
 		#save_
-		self.password_ = "".join(string_int_)
+		self.cript_password = "".join(string_int_)
 
-		# Convert to bytearray
-		'''a_byte_array = bytearray(values, "utf8")
-		byte_list = list()
-
-		# Begin processing
-		for byte in a_byte_array:
-			binary_representaion = bin(byte)
-			byte_list.append(binary_representaion)
-			self.password_ = "".join(byte_list)'''
-
-		return self.password_
+		return self.cript_password
 
 	
-	def uncript(sefl, keys, values):
-		print('ok')
+	def uncript(self, target):
+		key = list()
+		keys = list()
+		values = list()
+
+
+		for el in range(len(target)):
+			try:
+				chr(int((target[el])))
+
+			except:
+				key.append(ord(target[el]))	
+
+		for el in key:
+			if el < 10 :keys.append(1)
+
+			elif el < 100:keys.append(2)
+
+			elif el < 1000:keys.append(3)
+
+			elif el < 10000:keys.append(4)
+
+			else:keys.append(5)
+
+		n = 1
+		for key in keys:
+			values.append(chr(int(target[n:n+key])))
+			n+=(key+1)
+
+		self.uncript_password = "".join(values)
+		
+		return self.uncript_password
+		
 		
 
 if __name__ == "__main__":
-	EncriptAll()
+	enc = EncriptAll()
 
 	
 		
