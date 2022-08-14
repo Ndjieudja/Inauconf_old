@@ -1,7 +1,7 @@
 
                                                                                                                         22.01.22
                                                                 
-            Documentation de l'application INAUCONF(Authentification Confidentialite et INtegrite)
+pip install inauconf
 
 Author: NDJIEU'DJA Gabriel
 Develloper en Python 3.5
@@ -19,7 +19,7 @@ REsumer:
 
 Presentation:
 
-    Dans son code source l'application contient plusieurs module eux meme contenant plusieurs class 
+>>from inauconf import shuffle
 
 * le modeule Shuffle.py :
     ce dernier contient essenetiellement l'agorithme de chiffrement et de dechiffrement. Il contient la classe 
